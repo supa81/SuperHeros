@@ -27,9 +27,9 @@ namespace SuperHero.Controllers
         }
 
         // GET: SuperHeroController/Details/5
-        public ActionResult Details()
+        public ActionResult Details(int id)
         {
-            var SuperheroDetails = _context.Superhero;
+            var SuperheroDetails = _context.Superhero.Where(s => s.Id==id).Single();
 
             return View(SuperheroDetails);
         }
@@ -37,7 +37,7 @@ namespace SuperHero.Controllers
         // GET: SuperHeroController/Create
         public ActionResult Create()
         {
-           
+            
             return View();
         }
 
@@ -61,17 +61,21 @@ namespace SuperHero.Controllers
         // GET: SuperHeroController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            var EditSuperhero = _context.Superhero.Where(e => e.Id == id).Single();
+            return View(EditSuperhero);
         }
 
         // POST: SuperHeroController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Superhero edithero)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _context.Superhero.Add(edithero);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Edit));
             }
             catch
             {
@@ -80,18 +84,22 @@ namespace SuperHero.Controllers
         }
 
         // GET: SuperHeroController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete()
         {
-            return View();
+            var deleteSuperhero = _context.Superhero;
+            
+            return View(deleteSuperhero);
         }
 
         // POST: SuperHeroController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Superhero deletehero)
         {
             try
             {
+                _context.Superhero.Remove(deletehero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch

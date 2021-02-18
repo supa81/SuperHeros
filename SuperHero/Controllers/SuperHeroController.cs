@@ -37,9 +37,9 @@ namespace SuperHero.Controllers
         // GET: SuperHeroController/Create
         public ActionResult Create()
         {
-            
+            var createsuperhero = _context.Superhero;
             return View();
-        }
+        }  
 
         // POST: SuperHeroController/Create
         [HttpPost]
@@ -63,6 +63,7 @@ namespace SuperHero.Controllers
         {
 
             var EditSuperhero = _context.Superhero.Where(e => e.Id == id).Single();
+           
             return View(EditSuperhero);
         }
 
@@ -74,7 +75,7 @@ namespace SuperHero.Controllers
             try
             {
                 _context.Superhero.Add(edithero);
-                _context.SaveChanges();
+
                 return RedirectToAction(nameof(Edit));
             }
             catch
@@ -84,9 +85,9 @@ namespace SuperHero.Controllers
         }
 
         // GET: SuperHeroController/Delete/5
-        public ActionResult Delete()
+        public ActionResult Delete(int id)
         {
-            var deleteSuperhero = _context.Superhero;
+            var deleteSuperhero = _context.Superhero.Where(d => d.Id == id).Single();
             
             return View(deleteSuperhero);
         }

@@ -74,8 +74,8 @@ namespace SuperHero.Controllers
         {
             try
             {
-                _context.Superhero.Add(edithero);
-
+                _context.Superhero.Update(edithero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Edit));
             }
             catch
